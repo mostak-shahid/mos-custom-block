@@ -1,0 +1,22 @@
+npm init
+npm install browserslist @wordpress/browserslist-config --save-dev
+npm install @wordpress/scripts --save-dev
+https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/
+
+npm run build
+npm run start
+
+
+
+****
+for registerBlockType
+we have to include in the js file
+const {registerBlockType} = wp.blocks;
+we have to include the dependency 
+wp-blocks
+
+for Richtext
+we have to include in the js file
+const {Richtext} = wp.editor
+we have to include the dependency 
+wp-editor

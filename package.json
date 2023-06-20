@@ -1,0 +1,30 @@
+{
+  "name": "mos-custom-block",
+  "version": "1.0.0",
+  "description": "Base of future block development plugin",
+  "main": "index.js",
+  "devDependencies": {
+    "@wordpress/browserslist-config": "^5.18.0",
+    "@wordpress/scripts": "^26.6.0",
+    "browserslist": "^4.21.9",
+    "prettier": "npm:wp-prettier@1.18.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wp-scripts build",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "start": "wp-scripts start",
+    "test:e2e": "wp-scripts test-e2e",
+    "test:unit": "wp-scripts test-unit-js"
+  },
+  "author": "Md. Mostak Shahid",
+  "license": "GPL-3.0"
+}
