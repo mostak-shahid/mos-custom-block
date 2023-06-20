@@ -103,7 +103,8 @@ const {
 const {
   PanelBody,
   IconButton,
-  Button
+  Button,
+  RangeControl
 } = wp.components;
 registerBlockType('mos/custom-cta', {
   // built-in attributes
@@ -120,6 +121,14 @@ registerBlockType('mos/custom-cta', {
     ctaBackgroundImage: {
       type: 'string',
       default: null
+    },
+    ctaOverlayColor: {
+      type: 'string',
+      default: '#ffffff'
+    },
+    ctaOverlayOpacity: {
+      type: 'number',
+      default: '0.3'
     },
     ctaTitle: {
       type: 'string',
@@ -144,6 +153,8 @@ registerBlockType('mos/custom-cta', {
   }) {
     const {
       ctaBackgroundImage,
+      ctaOverlayColor,
+      ctaOverlayOpacity,
       ctaTitle,
       ctaTitleColor,
       ctaBody
@@ -205,11 +216,26 @@ registerBlockType('mos/custom-cta', {
       value: ctaBackgroundImage,
       render: ({
         open
-      }) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Button, {
+      }) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(IconButton, {
         onClick: open,
+        icon: "upload",
         className: "editor-media-placeholder__button is-button is-default is-large"
       }, "Open Media Library")
-    })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strone", null, "Overlay Color: ")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ColorPalette, {
+      value: ctaOverlayColor,
+      onChange: newOverlayColor => setAttributes({
+        ctaOverlayColor: newOverlayColor
+      })
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RangeControl, {
+      title: 'Overlay Opacity',
+      value: ctaOverlayOpacity,
+      onChange: newOverlayOpacity => setAttributes({
+        ctaOverlayOpacity: newOverlayOpacity
+      }),
+      min: "0",
+      max: "1",
+      step: "0.01"
+    }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       class: "cta-container",
       style: {
         backgroundImage: `url(${ctaBackgroundImage})`,
@@ -239,6 +265,8 @@ registerBlockType('mos/custom-cta', {
   }) {
     const {
       ctaBackgroundImage,
+      ctaOverlayColor,
+      ctaOverlayOpacity,
       ctaTitle,
       ctaTitleColor,
       ctaBody

@@ -1,6 +1,6 @@
 const {registerBlockType} = wp.blocks;
 const {RichText, InspectorControls, ColorPalette, MediaUpload, MediaUploadCheck } = wp.editor;
-const {PanelBody, IconButton, Button } = wp.components;
+const {PanelBody, IconButton, Button, RangeControl } = wp.components;
 
 registerBlockType('mos/custom-cta',{
     // built-in attributes
@@ -18,6 +18,14 @@ registerBlockType('mos/custom-cta',{
         ctaBackgroundImage: {
             type: 'string',
             default: null
+        },
+        ctaOverlayColor: {
+            type: 'string',
+            default: '#ffffff'
+        },
+        ctaOverlayOpacity: {
+            type: 'number',
+            default: '0.3'
         },
         ctaTitle: {
             type: 'string',
@@ -39,7 +47,7 @@ registerBlockType('mos/custom-cta',{
     // built-in functions
     
     edit({attributes, setAttributes}){
-        const {ctaBackgroundImage, ctaTitle, ctaTitleColor, ctaBody} = attributes;
+        const {ctaBackgroundImage, ctaOverlayColor, ctaOverlayOpacity, ctaTitle, ctaTitleColor, ctaBody} = attributes;
         // custom functions
         function updateAuthor(event) {
             console.log(event.target.value);
@@ -83,7 +91,7 @@ registerBlockType('mos/custom-cta',{
                                     Background Image
                             </IconButton>
                         }} /> */}
-                        <MediaUploadCheck>
+                    <MediaUploadCheck>
                         <MediaUpload
                             // onSelect={ ( media ) =>
                             //     console.log( 'selected ' + media.length )
@@ -92,12 +100,24 @@ registerBlockType('mos/custom-cta',{
                             allowedTypes={ "image" }
                             value={ ctaBackgroundImage }
                             render={ ( { open } ) => (
-                                <Button 
+                                <IconButton 
                                     onClick={ open }
-                                    className="editor-media-placeholder__button is-button is-default is-large">Open Media Library</Button>
+                                    icon="upload"
+                                    className="editor-media-placeholder__button is-button is-default is-large">Open Media Library</IconButton>
                             ) }
                         />
-                    </MediaUploadCheck>
+                    </MediaUploadCheck>          
+                    <p><strone>Overlay Color: </strone></p>
+                    <ColorPalette 
+                        value={ctaOverlayColor}
+                        onChange={newOverlayColor => setAttributes({ctaOverlayColor: newOverlayColor})} />
+                    <RangeControl
+                        title={'Overlay Opacity'}
+                        value={ctaOverlayOpacity}
+                        onChange={newOverlayOpacity => setAttributes({ctaOverlayOpacity: newOverlayOpacity})}
+                        min="0"
+                        max="1"
+                        step="0.01" />
                 </PanelBody>
             </InspectorControls>,
             <div class="cta-container" style={{
@@ -124,7 +144,7 @@ registerBlockType('mos/custom-cta',{
     },
   
     save({attributes}){
-        const {ctaBackgroundImage, ctaTitle, ctaTitleColor, ctaBody} = attributes;
+        const {ctaBackgroundImage, ctaOverlayColor, ctaOverlayOpacity, ctaTitle, ctaTitleColor, ctaBody} = attributes;
         return (
             <div class="cta-container" style={{
                 backgroundImage:`url(${ctaBackgroundImage})`,

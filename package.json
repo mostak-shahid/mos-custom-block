@@ -23,8 +23,12 @@
     "plugin-zip": "wp-scripts plugin-zip",
     "start": "wp-scripts start",
     "test:e2e": "wp-scripts test-e2e",
-    "test:unit": "wp-scripts test-unit-js"
+    "test:unit": "wp-scripts test-unit-js",
+    "watch": "npm-watch"
   },
   "author": "Md. Mostak Shahid",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "sass": "^1.63.4"
+  }
 }
