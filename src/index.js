@@ -1,6 +1,6 @@
 const {registerBlockType} = wp.blocks;
-const {RichText, InspectorControls, ColorPalette} = wp.editor;
-const {PanelBody} = wp.components;
+const {RichText, InspectorControls, ColorPalette, MediaUpload} = wp.editor;
+const {PanelBody, IconButton} = wp.components;
 
 registerBlockType('mos/custom-cta',{
     // built-in attributes
@@ -14,6 +14,10 @@ registerBlockType('mos/custom-cta',{
     attributes: {
         content: {
             type: 'string',
+        },
+        ctaBackgroundImage: {
+            type: 'string',
+            default: null
         },
         ctaTitle: {
             type: 'string',
@@ -35,13 +39,17 @@ registerBlockType('mos/custom-cta',{
     // built-in functions
     
     edit({attributes, setAttributes}){
-        const {ctaTitle, ctaTitleColor, ctaBody} = attributes;
+        const {ctaBackgroundImage, ctaTitle, ctaTitleColor, ctaBody} = attributes;
         // custom functions
         function updateAuthor(event) {
             console.log(event.target.value);
             setAttributes({content: event.target.value});
         };
         // const toggleSetting = () => setAttributes( { mySetting: ! mySetting } );
+        
+        function onSelectImage(newBackgroundImage) {
+            setAttributes({ctaBackgroundImage: newBackgroundImage.sizes.full.url});
+        };
         function onChangeTitle(newTitle) {
             setAttributes({ctaTitle: newTitle});
         };
@@ -56,10 +64,25 @@ registerBlockType('mos/custom-cta',{
         return ([
             <InspectorControls style={{marginBottom: '40px'}}>
                 <PanelBody title={'Font Color Settings'}>
-                    <p><strone>Select a Title Color</strone></p>
+                    <p><strone>Select a Title Color: </strone></p>
                     <ColorPalette 
                         value={ctaTitleColor}
                         onChange={onTitleColorChange} />
+                </PanelBody>
+                <PanelBody title={'Background Image Settings'}>                    
+                    <p><strone>Select a Background Image: </strone></p>
+                    <MediaUpload
+                        type="image"
+                        value={ctaBackgroundImage}
+                        onSelect={onSelectImage}
+                        render={({open}) => {
+                            <IconButton
+                                onClick={open}
+                                icon="upload"
+                                className="editor-media-placeholder__button is-button is-default is-large">
+                                    Background Image
+                            </IconButton>
+                        }} />
                 </PanelBody>
             </InspectorControls>,
             <div class="cta-container">
@@ -81,7 +104,7 @@ registerBlockType('mos/custom-cta',{
     },
   
     save({attributes}){
-        const {ctaTitle, ctaTitleColor, ctaBody} = attributes;
+        const {ctaBackgroundImage, ctaTitle, ctaTitleColor, ctaBody} = attributes;
         return (
             <div class="cta-container">
                 <h2 style={{color: ctaTitleColor}}>{ctaTitle}</h2>

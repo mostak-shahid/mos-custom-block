@@ -96,10 +96,12 @@ const {
 const {
   RichText,
   InspectorControls,
-  ColorPalette
+  ColorPalette,
+  MediaUpload
 } = wp.editor;
 const {
-  PanelBody
+  PanelBody,
+  IconButton
 } = wp.components;
 registerBlockType('mos/custom-cta', {
   // built-in attributes
@@ -112,6 +114,10 @@ registerBlockType('mos/custom-cta', {
   attributes: {
     content: {
       type: 'string'
+    },
+    ctaBackgroundImage: {
+      type: 'string',
+      default: null
     },
     ctaTitle: {
       type: 'string',
@@ -135,6 +141,7 @@ registerBlockType('mos/custom-cta', {
     setAttributes
   }) {
     const {
+      ctaBackgroundImage,
       ctaTitle,
       ctaTitleColor,
       ctaBody
@@ -148,6 +155,13 @@ registerBlockType('mos/custom-cta', {
     }
     ;
     // const toggleSetting = () => setAttributes( { mySetting: ! mySetting } );
+
+    function onSelectImage(newBackgroundImage) {
+      setAttributes({
+        ctaBackgroundImage: newBackgroundImage.sizes.full.url
+      });
+    }
+    ;
     function onChangeTitle(newTitle) {
       setAttributes({
         ctaTitle: newTitle
@@ -174,9 +188,24 @@ registerBlockType('mos/custom-cta', {
       }
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, {
       title: 'Font Color Settings'
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strone", null, "Select a Title Color")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ColorPalette, {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strone", null, "Select a Title Color: ")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(ColorPalette, {
       value: ctaTitleColor,
       onChange: onTitleColorChange
+    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, {
+      title: 'Background Image Settings'
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strone", null, "Select a Background Image: ")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(MediaUpload, {
+      type: "image",
+      value: ctaBackgroundImage,
+      onSelect: onSelectImage,
+      render: ({
+        open
+      }) => {
+        (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(IconButton, {
+          onClick: open,
+          icon: "upload",
+          className: "editor-media-placeholder__button is-button is-default is-large"
+        }, "Background Image");
+      }
     }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       class: "cta-container"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
@@ -200,6 +229,7 @@ registerBlockType('mos/custom-cta', {
     attributes
   }) {
     const {
+      ctaBackgroundImage,
       ctaTitle,
       ctaTitleColor,
       ctaBody
