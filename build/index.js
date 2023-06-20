@@ -97,11 +97,13 @@ const {
   RichText,
   InspectorControls,
   ColorPalette,
-  MediaUpload
+  MediaUpload,
+  MediaUploadCheck
 } = wp.editor;
 const {
   PanelBody,
-  IconButton
+  IconButton,
+  Button
 } = wp.components;
 registerBlockType('mos/custom-cta', {
   // built-in attributes
@@ -193,21 +195,28 @@ registerBlockType('mos/custom-cta', {
       onChange: onTitleColorChange
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(PanelBody, {
       title: 'Background Image Settings'
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strone", null, "Select a Background Image: ")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(MediaUpload, {
-      type: "image",
-      value: ctaBackgroundImage,
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("strone", null, "Select a Background Image: ")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(MediaUploadCheck, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(MediaUpload
+    // onSelect={ ( media ) =>
+    //     console.log( 'selected ' + media.length )
+    // }
+    , {
       onSelect: onSelectImage,
+      allowedTypes: "image",
+      value: ctaBackgroundImage,
       render: ({
         open
-      }) => {
-        (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(IconButton, {
-          onClick: open,
-          icon: "upload",
-          className: "editor-media-placeholder__button is-button is-default is-large"
-        }, "Background Image");
+      }) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(Button, {
+        onClick: open,
+        className: "editor-media-placeholder__button is-button is-default is-large"
+      }, "Open Media Library")
+    })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      class: "cta-container",
+      style: {
+        backgroundImage: `url(${ctaBackgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
       }
-    }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: "cta-container"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
       key: "editable",
       tagName: "h2",
@@ -235,7 +244,13 @@ registerBlockType('mos/custom-cta', {
       ctaBody
     } = attributes;
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: "cta-container"
+      class: "cta-container",
+      style: {
+        backgroundImage: `url(${ctaBackgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
       style: {
         color: ctaTitleColor
