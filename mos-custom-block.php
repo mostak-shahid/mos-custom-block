@@ -71,10 +71,18 @@ function mos_custom_gutenberg_blocks(){
         plugin_dir_url( __FILE__ ).'build/index.js', 
         array('wp-blocks', 'wp-editor', 'wp-components')
     );
+    wp_register_style(
+        'mos-cta-block', 
+        //plugin_dir_url( __FILE__ ).'mos-cta-block.js', 
+        plugin_dir_url( __FILE__ ).'build/style.css', 
+
+    );
     register_block_type(
         'mos/custom-cta', 
         array(
-            'editor_script' => 'mos-cta-block'
+            'editor_script' => 'mos-cta-block',
+            //'editor_style' => '',
+            'style' =>  'mos-cta-block',
         )
     );
 }

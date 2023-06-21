@@ -1,4 +1,6 @@
-**runtime (8. Gutenberg from Scratch: Background Image, Colors, and Range Controller)(7:00)
+**runtime (18. WordPress Gutenberg Plugin: Create a Giveaway Block - PART4)(7:00)
+
+npx @wordpress/create-block mos-giveway
 
 npm init
 npm install browserslist @wordpress/browserslist-config --save-dev

@@ -1,6 +1,22 @@
 const {registerBlockType} = wp.blocks;
-const {RichText, InspectorControls, ColorPalette, MediaUpload, MediaUploadCheck } = wp.editor;
-const {PanelBody, IconButton, Button, RangeControl } = wp.components;
+const {
+    RichText, // 
+    InspectorControls, 
+    ColorPalette, 
+    MediaUpload, 
+    MediaUploadCheck, 
+    InnerBlocks, 
+    BlockControls,
+    AligmentToolbar 
+} = wp.editor;
+const {
+    PanelBody, 
+    IconButton, 
+    Button, 
+    RangeControl 
+} = wp.components;
+const ALLOWED_BLOCKS = ['core/button'];
+
 
 registerBlockType('mos/custom-cta',{
     // built-in attributes
@@ -40,14 +56,18 @@ registerBlockType('mos/custom-cta',{
             type: 'string',
             source: 'html',
             selector: 'p'
+        },
+        ctaAlignment: {
+            type: 'string',
+            default: 'none'
         }
     },
   
     
     // built-in functions
     
-    edit({attributes, setAttributes}){
-        const {ctaBackgroundImage, ctaOverlayColor, ctaOverlayOpacity, ctaTitle, ctaTitleColor, ctaBody} = attributes;
+    edit: ({attributes, setAttributes}) => {
+        const {ctaBackgroundImage, ctaOverlayColor, ctaOverlayOpacity, ctaTitle, ctaTitleColor, ctaBody, ctaAlignment} = attributes;
         // custom functions
         function updateAuthor(event) {
             console.log(event.target.value);
@@ -120,42 +140,51 @@ registerBlockType('mos/custom-cta',{
                         step="0.01" />
                 </PanelBody>
             </InspectorControls>,
-            <div class="cta-container" style={{
+            <div className="cta-container" style={{
                 backgroundImage:`url(${ctaBackgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
             }}>
-                <RichText
-                    key="editable"
-                    tagName="h2"
-                    placeholder="Your CTA Title"
-                    value={ctaTitle}
-                    onChange={onChangeTitle}
-                    style={{color: ctaTitleColor}} />
-                <RichText
-                    key="editable"
-                    tagName="p"
-                    placeholder="Your CTA Description"
-                    value={ctaBody}
-                    onChange={onChangeBody} />
+                <div className="cta-overlay" style={{
+                    backgroundColor: ctaOverlayColor,
+                    opacity: ctaOverlayOpacity,
+                }}></div>
+                <div className="cta-text-wrapper">
+                    
+                    <RichText
+                        key="editable"
+                        tagName="h2"
+                        placeholder="Your CTA Title"
+                        value={ctaTitle}
+                        onChange={onChangeTitle}
+                        style={{color: ctaTitleColor}} />
+                    <RichText
+                        key="editable"
+                        tagName="p"
+                        placeholder="Your CTA Description"
+                        value={ctaBody}
+                        onChange={onChangeBody} />
+                    <InnerBlocks allowedBlocks={ALLOWED_BLOCKS} />
+                </div>
             </div>
         ]);
     },
   
-    save({attributes}){
-        const {ctaBackgroundImage, ctaOverlayColor, ctaOverlayOpacity, ctaTitle, ctaTitleColor, ctaBody} = attributes;
+    save: ({attributes}) => {
+        const {ctaBackgroundImage, ctaOverlayColor, ctaOverlayOpacity, ctaTitle, ctaTitleColor, ctaBody, ctaAlignment} = attributes;
         return (
-            <div class="cta-container" style={{
+            <div className="cta-container" style={{
                 backgroundImage:`url(${ctaBackgroundImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
             }}>
-                <h2 style={{color: ctaTitleColor}}>{ctaTitle}</h2>
-                <RichText.Content 
-                    tagName="p"
-                    value={ctaBody} />
+                <div className="cta-overlay" style={{
+                    backgroundColor: ctaOverlayColor,
+                    opacity: ctaOverlayOpacity,
+                }}></div>
+                <div className="cta-text-wrapper">
+                    <h2 style={{color: ctaTitleColor}}>{ctaTitle}</h2>
+                    <RichText.Content 
+                        tagName="p"
+                        value={ctaBody} />
+                    <InnerBlocks.Content />
+                </div>
             </div>
         );
     },

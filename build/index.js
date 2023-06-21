@@ -95,10 +95,14 @@ const {
 } = wp.blocks;
 const {
   RichText,
+  // 
   InspectorControls,
   ColorPalette,
   MediaUpload,
-  MediaUploadCheck
+  MediaUploadCheck,
+  InnerBlocks,
+  BlockControls,
+  AligmentToolbar
 } = wp.editor;
 const {
   PanelBody,
@@ -106,6 +110,7 @@ const {
   Button,
   RangeControl
 } = wp.components;
+const ALLOWED_BLOCKS = ['core/button'];
 registerBlockType('mos/custom-cta', {
   // built-in attributes
   title: 'Call to Action',
@@ -143,21 +148,26 @@ registerBlockType('mos/custom-cta', {
       type: 'string',
       source: 'html',
       selector: 'p'
+    },
+    ctaAlignment: {
+      type: 'string',
+      default: 'none'
     }
   },
   // built-in functions
 
-  edit({
+  edit: ({
     attributes,
     setAttributes
-  }) {
+  }) => {
     const {
       ctaBackgroundImage,
       ctaOverlayColor,
       ctaOverlayOpacity,
       ctaTitle,
       ctaTitleColor,
-      ctaBody
+      ctaBody,
+      ctaAlignment
     } = attributes;
     // custom functions
     function updateAuthor(event) {
@@ -236,13 +246,18 @@ registerBlockType('mos/custom-cta', {
       max: "1",
       step: "0.01"
     }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: "cta-container",
+      className: "cta-container",
       style: {
-        backgroundImage: `url(${ctaBackgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundImage: `url(${ctaBackgroundImage})`
       }
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "cta-overlay",
+      style: {
+        backgroundColor: ctaOverlayColor,
+        opacity: ctaOverlayOpacity
+      }
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "cta-text-wrapper"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText, {
       key: "editable",
       tagName: "h2",
@@ -258,27 +273,35 @@ registerBlockType('mos/custom-cta', {
       placeholder: "Your CTA Description",
       value: ctaBody,
       onChange: onChangeBody
-    }))];
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InnerBlocks, {
+      allowedBlocks: ALLOWED_BLOCKS
+    })))];
   },
-  save({
+  save: ({
     attributes
-  }) {
+  }) => {
     const {
       ctaBackgroundImage,
       ctaOverlayColor,
       ctaOverlayOpacity,
       ctaTitle,
       ctaTitleColor,
-      ctaBody
+      ctaBody,
+      ctaAlignment
     } = attributes;
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      class: "cta-container",
+      className: "cta-container",
       style: {
-        backgroundImage: `url(${ctaBackgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundImage: `url(${ctaBackgroundImage})`
       }
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "cta-overlay",
+      style: {
+        backgroundColor: ctaOverlayColor,
+        opacity: ctaOverlayOpacity
+      }
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "cta-text-wrapper"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
       style: {
         color: ctaTitleColor
@@ -286,7 +309,7 @@ registerBlockType('mos/custom-cta', {
     }, ctaTitle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(RichText.Content, {
       tagName: "p",
       value: ctaBody
-    }));
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(InnerBlocks.Content, null)));
   }
 });
 })();
